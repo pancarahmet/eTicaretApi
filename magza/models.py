@@ -1,16 +1,16 @@
 from django.db import models
-from users.models import User
+from django.conf import settings
 
 # Create your models here.
 
 class MCommet(models.Model):
-    owner=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     mYorum=models.TextField()
 
     def __str__(self):
         return self.owner.ad
 class MPuan(models.Model):
-    owner=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     mPuan=models.PositiveIntegerField(default=0)
 
     def __str__(self):
@@ -18,7 +18,7 @@ class MPuan(models.Model):
 
 
 class Magzalar(models.Model):
-    owner=models.ForeignKey(User,on_delete=models.CASCADE,related_name="userMagza")
+    owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="userMagza")
     mAdi=models.CharField(max_length=255)
     mTelefon=models.CharField(max_length=15)
     mAdresIl=models.CharField(max_length=30)
@@ -30,7 +30,7 @@ class Magzalar(models.Model):
     mVn=models.CharField(max_length=15)
     mVd=models.CharField(max_length=250)
     mBakiye=models.DecimalField(max_digits=10,decimal_places=2,default=0)
-    puan=models.ForeignKey()
+    puan=models.ForeignKey(MPuan,on_delete=models.DO_NOTHING)
 
 
     def __str__(self):

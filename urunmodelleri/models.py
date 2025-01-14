@@ -1,5 +1,6 @@
 from django.db import models
-from users.models import User
+
+from django.conf import settings
 
 # Create your models here.
 
@@ -21,12 +22,12 @@ class Beden(models.Model):
     def __str__(self):
         return self.name
 class Comment(models.Model):
-    owner=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     yorum=models.TextField()
     def __str__(self):
         return self.owner.ad
 class UPuan(models.Model):
-    owner=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     uPuan=models.PositiveIntegerField(default=0)
     
 class Urunler(models.Model):
@@ -47,7 +48,7 @@ class Urunler(models.Model):
         return self.name
     
 class Sepet(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="sepet")
+    user=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="sepet")
     olusturulma_zamani=models.DateTimeField(auto_now_add=True)
     guncelleme_zamani=models.DateTimeField(auto_now=True)
 

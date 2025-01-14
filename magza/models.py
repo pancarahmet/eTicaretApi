@@ -30,7 +30,7 @@ class Magzalar(models.Model):
     mVn=models.CharField(max_length=15)
     mVd=models.CharField(max_length=250)
     mBakiye=models.DecimalField(max_digits=10,decimal_places=2,default=0)
-    puan=models.ForeignKey(MPuan,on_delete=models.DO_NOTHING)
+    puan=models.ForeignKey(MPuan,on_delete=models.DO_NOTHING,null=True,blank=True)
     olusturma_zamani=models.DateTimeField(auto_now_add=True)
     guncelleme_zamani=models.DateTimeField(auto_now=True)
 

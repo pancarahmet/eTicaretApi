@@ -20,6 +20,14 @@ class Beden(models.Model):
 
     def __str__(self):
         return self.name
+class Comment(models.Model):
+    owner=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    yorum=models.TextField()
+    def __str__(self):
+        return self.owner.ad
+class UPuan(models.Model):
+    owner=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    uPuan=models.PositiveIntegerField(default=0)
     
 class Urunler(models.Model):
     category=models.ForeignKey(Category,on_delete=models.DO_NOTHING,related_name="urunler")
@@ -32,6 +40,8 @@ class Urunler(models.Model):
     guncelleme_zamani=models.DateTimeField(auto_now=True)
     ebat=models.ManyToManyField(Beden)
     renk=models.ManyToManyField(Renk)
+    puan=models.PositiveIntegerField(default=0)
+    comment=models.ForeignKey(Comment,on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.name
@@ -52,3 +62,12 @@ class SepetUrunleri(models.Model):
 
     def __str__(self):
         return f"{self.urun.name} x {self.adet}"
+    
+class KargoTakip(models.Model):
+    urun=models.ForeignKey(Urunler,on_delete=models.DO_NOTHING)
+    kargoSirketi=models.CharField(max_length=150)
+    kargoNo=models.CharField(max_length=30)
+    status=models.CharField(max_length=40)
+
+    def __str__(self):
+        return f"{self.urun.name} - {self.kargoSirketi} - {self.kargoNo} - {self.status}"

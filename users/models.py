@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils import timezone
 
+from urunmodelleri.models import *
+
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -65,3 +67,10 @@ class Adress(models.Model):
     title=models.CharField(max_length=30)
     adress=models.TextField()
 
+
+class FavoriUrun(models.Model):
+    owner=models.ForeignKey(User,on_delete=models.CASCADE)
+    urun=models.ForeignKey(Urunler,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.urun.name

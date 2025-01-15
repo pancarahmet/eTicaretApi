@@ -6,7 +6,7 @@ class MagzaSerialzer(serializers.ModelSerializer):
     class Meta:
         model=Magzalar
         
-        exclude=['id','owner','olusturma_zamani','guncelleme_zamani','puan']
+        exclude=['id','owner','olusturma_zamani','guncelleme_zamani']
 
     
     def create(self,validated_data):

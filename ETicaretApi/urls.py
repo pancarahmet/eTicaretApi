@@ -26,6 +26,7 @@ router.register(r'banka',BankaViewSet,basename='bankaViewSet')
 router.register(r'mpuan',MPuanViewSet,basename='mPuanViewSet')
 router.register(r'mcomment',MCommentViewSet,basename='mCommentViewSet')
 router.register(r'sistem',SistemBakiyeViewSet,basename='sistemBakiyeViewSet')
+router.register(r'sepet',SepetViewSet,basename='sepetViewSet')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

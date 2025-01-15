@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 from django.conf import settings
 
@@ -7,6 +8,11 @@ from django.conf import settings
 class Category(models.Model):
     name=models.CharField(max_length=100)
     slug=models.SlugField(unique=True)
+
+    # def save(self, *args,**kwargs):
+    #     if not self.slug:
+    #         self.slug=slugify(self.name)
+    #     return super().save(*args,**kwargs)
 
     def __str__(self):
         return self.name
@@ -21,14 +27,7 @@ class Beden(models.Model):
 
     def __str__(self):
         return self.name
-class Comment(models.Model):
-    owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
-    yorum=models.TextField()
-    def __str__(self):
-        return self.owner.ad
-class UPuan(models.Model):
-    owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
-    uPuan=models.PositiveIntegerField(default=0)
+
     
 class Urunler(models.Model):
     category=models.ForeignKey(Category,on_delete=models.DO_NOTHING,related_name="urunler")
@@ -41,16 +40,30 @@ class Urunler(models.Model):
     guncelleme_zamani=models.DateTimeField(auto_now=True)
     ebat=models.ManyToManyField(Beden)
     renk=models.ManyToManyField(Renk)
-    puan=models.PositiveIntegerField(default=0)
-    comment=models.ForeignKey(Comment,on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.name
-    
+
+class Comment(models.Model):
+    owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
+    urun=models.ForeignKey(Urunler,on_delete=models.CASCADE,blank=True,null=True)
+    uYorum=models.TextField()
+    def __str__(self):
+        return self.owner.username
+class UPuan(models.Model):
+    owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
+    urun=models.ForeignKey(Urunler,on_delete=models.CASCADE,blank=True,null=True)
+    uPuan=models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return f"{self.owner.username} - {self.urun.name} - {self.uPuan}"
+
+
+
 class Sepet(models.Model):
     user=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="sepet")
     olusturulma_zamani=models.DateTimeField(auto_now_add=True)
     guncelleme_zamani=models.DateTimeField(auto_now=True)
+    is_complated=models.BooleanField(default=False)
 
     def __str__(self):
         return f"Sepet: {self.id} - {self.user.username}"

@@ -42,7 +42,10 @@ class MPuanSerializer(serializers.ModelSerializer):
     
     def create(self,validate_data):
         user=self.context['request'].user
-        return MPuan.objects.create(owner=user,**validate_data)
+        magza=validate_data['magza']
+        puan=validate_data['mPuan']
+        puanlama,created = MPuan.objects.update_or_create(owner=user,magza=magza,defaults={'mPuan':puan})
+        return puanlama
 
 class SistemBakiyeSerializer(serializers.ModelSerializer):
     class Meta:

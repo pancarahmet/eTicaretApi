@@ -35,8 +35,11 @@ class MCommet(models.Model):
         return f'{self.owner.ad} - {self.magza.mAdi}'
 class MPuan(models.Model):
     owner=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
-    magza=models.OneToOneField(Magzalar,on_delete=models.CASCADE,blank=True,null=True)
+    magza=models.ForeignKey(Magzalar,on_delete=models.CASCADE,blank=True,null=True)
     mPuan=models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together=('owner','magza') # bir kullanıcının bir mağzaya sadece 1 kez puan vermesini sağlıyıcak
 
     def __str__(self):
         return f"{self.owner.username} - {self.mPuan} - {self.magza.mAdi}"

@@ -26,4 +26,26 @@ class BankaSerialzer(serializers.ModelSerializer):
             self.fields['owner'].queryset=Magzalar.objects.filter(owner=request.user)
     
 
+class MCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=MCommet
+        fields=['magza','mYorum']
         
+    def create(self,validate_data):
+        user=self.context['request'].user
+        return MCommet.objects.create(owner=user,**validate_data)
+
+class MPuanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=MPuan
+        fields=['magza','mPuan']
+    
+    def create(self,validate_data):
+        user=self.context['request'].user
+        return MPuan.objects.create(owner=user,**validate_data)
+
+class SistemBakiyeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=SistemBakiye
+        fields="__all__"
+    

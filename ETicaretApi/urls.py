@@ -23,6 +23,9 @@ from urunmodelleri.views import *
 router=DefaultRouter()
 router.register(r'magza',MagzaViewSet,basename='magzaViewSet')
 router.register(r'banka',BankaViewSet,basename='bankaViewSet')
+router.register(r'mpuan',MPuanViewSet,basename='mPuanViewSet')
+router.register(r'mcomment',MCommentViewSet,basename='mCommentViewSet')
+router.register(r'sistem',SistemBakiyeViewSet,basename='sistemBakiyeViewSet')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

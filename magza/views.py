@@ -26,7 +26,7 @@ class MPuanViewSet(viewsets.ModelViewSet):
 class SistemBakiyeViewSet(viewsets.ModelViewSet):
     queryset=SistemBakiye.objects.all()
     serializer_class=SistemBakiyeSerializer
-    
+
 
 
     

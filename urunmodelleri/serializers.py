@@ -64,39 +64,45 @@ class UPuanSerializer(ModelSerializer):
         return puanlama
 class SepetUrunleriSerializer(ModelSerializer):
     urun=UrunlerSerializer(read_only=True)
-    urun_id=PrimaryKeyRelatedField(queryset=Urunler.objects.all(),source='sepet',write_only=True)
+    urun_id=PrimaryKeyRelatedField(queryset=Urunler.objects.all(),source='urun',write_only=True)
     class Meta:
         model=SepetUrunleri
         fields='__all__'
 
 class SepetSerializer(ModelSerializer):
-    sepetUrunleri=SepetUrunleriSerializer(many=True)
+    sepetUrunleri=SepetUrunleriSerializer(many=True,required=False)
     class Meta:
         model=Sepet
         fields='__all__'
     
     def create(self, validated_data):
-        urunler_bilgisi=validated_data.pop('urun')
+        urunler_bilgisi=validated_data.pop('sepetUrunleri',[])
         sepet=Sepet.objects.create(**validated_data)
         for urun_bilgisi in urunler_bilgisi:
             SepetUrunleri.objects.create(sepet=sepet,**urun_bilgisi)
         return sepet
     def update(self, instance, validated_data):
         
-        urunler_bilgisi=validated_data.pop('sepet',None)
+        urunler_bilgisi=validated_data.pop('sepetUrunleri',None)
         instance=super().update(instance,validated_data)
-
+        print("1231312312")
         if urunler_bilgisi:
             for urun_bilgisi in urunler_bilgisi:
-                urun=urun_bilgisi.get('urun')
+                urun=urun_bilgisi['urun']
                 adet=urun_bilgisi.get('adet',1)
 
                 sepet_urunu,created=SepetUrunleri.objects.get_or_create(
                     sepet=instance,
                     urun=urun,
-                    defaults={'adet',adet}
+                    defaults={'adet':adet}
                 )
                 if not created:
-                    urun_bilgisi.adet=adet
-                    urun_bilgisi.save()
+                    sepet_urunu.adet=adet
+                    sepet_urunu.save()
         return instance
+    
+class KargoTakipSerializer(ModelSerializer):
+   class Meta:
+        model=KargoTakip
+        fields="__all__"
+    

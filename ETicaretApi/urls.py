@@ -21,12 +21,23 @@ from users.views import *
 from urunmodelleri.views import *
 
 router=DefaultRouter()
+############ MAĞZA #########
 router.register(r'magza',MagzaViewSet,basename='magzaViewSet')
 router.register(r'banka',BankaViewSet,basename='bankaViewSet')
 router.register(r'mpuan',MPuanViewSet,basename='mPuanViewSet')
 router.register(r'mcomment',MCommentViewSet,basename='mCommentViewSet')
 router.register(r'sistem',SistemBakiyeViewSet,basename='sistemBakiyeViewSet')
+########### Urunler #########
 router.register(r'sepet',SepetViewSet,basename='sepetViewSet')
+router.register(r'category',CategoryViewSet,basename="categoryViewSet")
+router.register(r'beden',BedenViewSet,basename="bedenViewSet")
+router.register(r'renk',RenkViewSet,basename="RenkViewSet")
+router.register(r'urunler',UrunlerViewSet,basename="urunlerViewSet")
+router.register(r'ucomment',UCommentViewSet,basename="uCommentViewSet")
+router.register(r'upuan',UPuanViewSet,basename="uPuanViewSet")
+router.register(r'kargotakip',KargoTakipViewSet,basename="kargoTakipViewSet")
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

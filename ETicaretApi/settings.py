@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'magza',
     'users',
     'urunmodelleri',
+    'rest_framework_simplejwt'
  
 ]
 
@@ -115,6 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL="users.User"
+
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
 
 AUTHENTICATION_BACKENDS=[
     'users.backends.EmailOrUsernameModelBackend',

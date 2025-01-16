@@ -19,6 +19,11 @@ from rest_framework.routers import DefaultRouter
 from magza.views import *
 from users.views import *
 from urunmodelleri.views import *
+from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView,TokenVerifyView
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 router=DefaultRouter()
 ############ MAĞZA #########
@@ -36,10 +41,19 @@ router.register(r'urunler',UrunlerViewSet,basename="urunlerViewSet")
 router.register(r'ucomment',UCommentViewSet,basename="uCommentViewSet")
 router.register(r'upuan',UPuanViewSet,basename="uPuanViewSet")
 router.register(r'kargotakip',KargoTakipViewSet,basename="kargoTakipViewSet")
-
+######### User ########
+router.register(r'user',UserViewSets,basename="userViewSet")
+router.register(r'favori',FavoriUrunViewSet,basename="favoriUrunViewSet")
+router.register(r'adress',AdresViewSet,basename="adresViewSet")
+router.register(r'register',RegisterViewSet,basename="registerViewSet")
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/',include(router.urls))
+    path('api/',include(router.urls)),
+    path('api/token/',TokenObtainPairView.as_view(),name="token_obtain_pair"),
+    path('api/token/refresh/',TokenRefreshView.as_view(),name="token_refresh"),
+    path('api/token/verify/',TokenVerifyView.as_view(),name="token_verify"),
+
 ]
+urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

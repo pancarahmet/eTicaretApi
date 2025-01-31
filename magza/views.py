@@ -18,7 +18,8 @@ class MagzaViewSet(viewsets.ModelViewSet):
 class BankaViewSet(viewsets.ModelViewSet):
     queryset=Bankalar.objects.all()
     serializer_class=BankaSerialzer
-    permission_classes=[IsMagzaOwner]
+    permission_classes=[permissions.IsAuthenticated,IsMagzaOwner]
+
 class MCommentViewSet(viewsets.ModelViewSet):
     queryset=MCommet.objects.all()
     serializer_class=MCommentSerializer

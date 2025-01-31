@@ -18,12 +18,13 @@ class BankaSerialzer(serializers.ModelSerializer):
         model=Bankalar
         exclude=['id']
     
+
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
 
         request=self.context.get('request')
         if request and hasattr(request,'user'):
-            self.fields['owner'].queryset=Magzalar.objects.filter(owner=request.user)
+            self.fields["owner"].queryset=Magzalar.objects.filter(owner=request.user)
     
 
 class MCommentSerializer(serializers.ModelSerializer):

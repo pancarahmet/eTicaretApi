@@ -25,6 +25,7 @@ class FavoriUrunViewSet(viewsets.ModelViewSet):
 class RegisterViewSet(viewsets.ModelViewSet):
     queryset=User.objects.all()
     serializer_class=RegisterSerializer
+    permission_classes=[RegisterPermissons]
 
 
 

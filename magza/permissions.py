@@ -14,4 +14,13 @@ class IsMagzaUser(BasePermission):
         return obj.owner==request.user
 class IsMagzaOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
+        print("burası obj permissions: ",request)
         return obj.owner.owner==request.user
+    
+    # def has_permission(self, request, view):
+        
+    #     print(request.user)
+    #     magza=Magzalar.objects.filter(owner=request.user)
+    #     if magza:
+    #         return True
+        

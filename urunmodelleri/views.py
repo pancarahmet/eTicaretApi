@@ -1,9 +1,11 @@
 from django.shortcuts import render,get_object_or_404
-from rest_framework import viewsets,status
+from rest_framework import viewsets,status,permissions
 from .serializers import *
 from .models import *
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from users.permissions import *
+from .permissions import *
 
 
 # Create your views here.
@@ -11,6 +13,7 @@ from rest_framework.response import Response
 class SepetViewSet(viewsets.ModelViewSet):
     queryset=Sepet.objects.all()
     serializer_class=SepetSerializer
+    permission_classes=[permissions.IsAuthenticated]
 
     def get_queryset(self):
         return Sepet.objects.filter(user=self.request.user)
@@ -68,22 +71,35 @@ class SepetViewSet(viewsets.ModelViewSet):
 class RenkViewSet(viewsets.ModelViewSet):
     queryset=Renk.objects.all()
     serializer_class=RenkSerializer
+    permission_classes=[permissions.IsAuthenticated]
 
 class BedenViewSet(viewsets.ModelViewSet):
     queryset=Beden.objects.all()
     serializer_class=BedenSerializer
+    permission_classes=[IsSystemUser]
+
 class UCommentViewSet(viewsets.ModelViewSet):
     queryset=Comment.objects.all()
     serializer_class=CommentSerializer
+    permission_classes=[permissions.IsAuthenticated]
+
 class UPuanViewSet(viewsets.ModelViewSet):
     queryset=UPuan.objects.all()
     serializer_class=UPuanSerializer
+    permission_classes=[permissions.IsAuthenticated]
+
 class UrunlerViewSet(viewsets.ModelViewSet):
     queryset=Urunler.objects.all()
     serializer_class=UrunlerSerializer
+    permission_classes=[IsMagzaUsers]
+    
+    
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset=Category.objects.all()
     serializer_class=CategorySerializer
+    permission_classes=[IsSystemUser]
+
 class KargoTakipViewSet(viewsets.ModelViewSet):
     queryset=KargoTakip.objects.all()
     serializer_class=KargoTakipSerializer
+    permission_classes=[permissions.IsAuthenticated]

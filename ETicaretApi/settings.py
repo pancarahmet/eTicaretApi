@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'magza',
     'users',
     'urunmodelleri',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'drf_yasg',
  
 ]
 
@@ -123,11 +124,28 @@ REST_FRAMEWORK={
     )
 }
 
+from datetime import timedelta
+SIMPLE_JWT={
+    'ACCESS_TOKEN_LIFETIME':timedelta(seconds=30),
+    'REFRESH_TOKEN_LIFETIME':timedelta(days=1),
+    'AUTH_HEADER_TYPES':('PNCRYazilim',)
+}
 
 AUTHENTICATION_BACKENDS=[
     'users.backends.EmailOrUsernameModelBackend',
     'django.contrib.auth.backends.ModelBackend'
 ]
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'PNCRYazilim': {
+            'type': 'apiKey',
+            'description': 'JWT Bearer authentication',
+            'name': 'Authorization',
+            'in': 'headers'
+        },
+    },
+}
 
 
 # Internationalization

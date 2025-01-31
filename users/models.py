@@ -4,10 +4,12 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils import timezone
 
 from urunmodelleri.models import *
+from django.contrib.auth import password_validation
 
 
 # Create your models here.
 class UserManager(BaseUserManager):
+    
     def create_kuser(self,username,email,password,**extra_fields):
         if not email and not username:
             raise ValueError("Email ve Kullanıcı adı zorunlu")
@@ -35,11 +37,11 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser,PermissionsMixin):
     username=models.CharField(max_length=255,unique=True)
-    password=models.CharField(max_length=20)
+    # password=models.CharField(max_length=255)
     email=models.EmailField(max_length=255,unique=True)
     telefon=models.CharField(max_length=15,blank=True,null=True)
-    ad=models.CharField(max_length=40,blank=True,null=True)
-    soyad=models.CharField(max_length=40,blank=True,null=True)
+    first_name=models.CharField(max_length=40,blank=True,null=True)
+    last_name=models.CharField(max_length=40,blank=True,null=True)
     tckn=models.PositiveIntegerField(default=11111111111,blank=True,null=True)
     onay=models.BooleanField(default=False)
     bakiye=models.DecimalField(default=0,max_digits=30,decimal_places=2)
